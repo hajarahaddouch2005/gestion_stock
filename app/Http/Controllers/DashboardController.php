@@ -11,12 +11,18 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index(){
         return view('dashboard', ['user' => Auth::user()]);
     }
+
+
+
+
+
 
     public function customers() {
         $customers = Customer::all();
@@ -31,7 +37,7 @@ class DashboardController extends Controller
     public function products(){
         $products = Product::with(['category', 'supplier', 'stock'])
                     ->get();
-        
+
         $categories = Category::all();
         $suppliers = Supplier::all();
         return view('products.index',compact('products', 'categories', 'suppliers'));

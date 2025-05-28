@@ -12,11 +12,23 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
-//Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-Route::get('/customers', [DashboardController::class, 'customers'])->middleware('auth')->name('customers');
-Route::get('/suppliers', [DashboardController::class, 'suppliers'])->middleware('auth')->name('suppliers');
-Route::get('/products', [DashboardController::class, 'products'])->middleware('auth')->name('products');
+Route::get('/customers/print', [CustomerController::class, 'print'])->name('customers.print');
+
+
+
+//lang
+Route::get('/changeLocale/{locale}', function (string $locale) {
+    if (in_array($locale, ['en', 'es', 'fr', 'ar'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+});
+
+    //Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+    Route::get('/customers', [DashboardController::class, 'customers'])->middleware('auth')->name('customers');
+    Route::get('/suppliers', [DashboardController::class, 'suppliers'])->middleware('auth')->name('suppliers');
+    Route::get('/products', [DashboardController::class, 'products'])->middleware('auth')->name('products');
 
 //Products
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth')->name('products.store');
@@ -67,13 +79,9 @@ Route::get('/orders/by-customer-view',[OrderController::class, 'index2'])->middl
 Route::get('/orders/by-customer-view/{customerId}', [OrderController::class, 'getOrdersByCustomer2'])->middleware('auth')->name('orders.by.customer.view');
 Route::get('/orders/by-customer-view/orderDetails/{orderId}', [OrderController::class, 'getOrderDetails2'])->middleware('auth')->name('orders.details.view');
 
-//translate
-Route::get('/changeLocale/{locale}', function (string $locale) {
-    if (in_array($locale, ['en', 'es', 'fr', 'ar'])) {
-        session()->put('locale', $locale);
-    }
-    return redirect()->back();
-});
+
+
+
 
 //sql
 Route::get('ordered_products', [ProductController::class, 'orderedProducts'])->middleware('auth')->name('ordered.products');

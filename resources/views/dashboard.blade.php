@@ -42,10 +42,7 @@
         <a href="{{ route('products.countbystore') }}" class="btn btn-primary mb-3">la requête-4</a>
         <a href="{{ route('store.value') }}" class="btn btn-danger mb-3">la requête-5</a>
         <a href="{{ route('sotre.greater_than_lind') }}" class="btn btn-secondary mb-3">la requête-6</a>
-
     </div>
-
-
     <br><br><br>
     <div class="container mt-4">
     <div class="card mb-4">
@@ -71,7 +68,7 @@
                 <button type="submit" class="btn btn-secondary">Save Session</button>
             </form>
         </div>
-         <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white">
             <h4 class="mb-0">Cookies</h4>
         </div>
         <div class="card-body">
@@ -95,6 +92,7 @@
         </div>
     </div>
     </div>
+
 
 
 <style>

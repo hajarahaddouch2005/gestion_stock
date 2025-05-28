@@ -16,6 +16,8 @@
                 @csrf
                 <input type="file" name="file" required>
                 <button type="submit" class="btn btn-warning">Import from Excel</button>
+                <a class="btn btn-info" href="{{ route('customers.print') }}" target="_blank"><i class="fa fa-print"></i>
+                    Print</a>
             </form>
         </div>
     </div>
