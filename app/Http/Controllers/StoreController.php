@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
+    // (Customers) االمرتبطين بها. مع أسماء الزبناء(Orders)  باش نعرضو لائحة الطلبات
     public function  customers_orders()
     {
         $orders = Order::join("customers","orders.customer_id","=","customers.id")
@@ -22,7 +23,7 @@ class StoreController extends Controller
 
         return view('stores.customers_orders', compact('orders'));
     }
-
+//نجيبو الموردين (Suppliers) اللي كيعطيو المنتجات اللي شراهم الزبون Annabel Stehr
     public function  suppliers_products()
     {
         $productIds = Customer::where("customers.first_name","Annabel")
@@ -30,7 +31,7 @@ class StoreController extends Controller
         ->join("orders","customers.id","=","orders.customer_id")
         ->join("product_orders","orders.id","=","product_orders.order_id")
         ->select("product_id")
-        ->pluck("product_id");
+        ->pluck("product_id");//pluck كنستعملوها باش نستخرجو عمود معيّن فقط من النتائج.
 
 
          $suppliers = Product::whereIn("products.id",$productIds)
@@ -41,7 +42,7 @@ class StoreController extends Controller
 
         return view('stores.suppliers_products', compact('suppliers'));
     }
-
+//نجيبو المنتجات اللي كيتباعو فـ نفس المحلات اللي كيتباعو فيها المنتجات ديال المورد Scottie crona.
     public function  products_same_stores()
     {
          $storeIds = Supplier::where("suppliers.first_name","Scottie")
@@ -63,7 +64,7 @@ class StoreController extends Controller
 
         return view('stores.products_same_stores', compact('products'));
     }
-
+//نحسبو عدد المنتجات اللي كاينين فـ كل محل (store).
     public function  countbystore()
     {
           $stores = Store::join("stocks","stocks.store_id","=","stores.id")
@@ -74,6 +75,8 @@ class StoreController extends Controller
         return view('stores.countbystore', compact('stores'));
     }
 
+
+  //  نحسبو القيمة الإجمالية ديال المنتجات فـ كل محل
 public function storeValue()
 {
     $stores = Store::join("stocks", "stocks.store_id", "=", "stores.id")
@@ -84,7 +87,7 @@ public function storeValue()
 
     return view('stores.storeValue', compact('stores'));
 }
-
+//نجيبو المحلات اللي القيمة ديال المنتجات فيها كثر من المحل Lind-Gislason.
 
     public function  storeGreater_than_lind()
     {

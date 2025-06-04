@@ -67,7 +67,7 @@
                                 var productsList = order.product.map(function(product) {
                                     return product.name;
                                 }).join('--');
-    
+
                                 $('#tbody').append('<tr>' +
                                     '<td>' + order.id + '</td>' +
                                     '<td>' + productsList + '</td>' +

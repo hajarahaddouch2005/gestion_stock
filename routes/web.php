@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/customers/print', [CustomerController::class, 'print'])->name('customers.print');
 
+Route::get('/dashboard/piechart', [App\Http\Controllers\ChartController::class, 'pieChart'])->name('chart.pie');
+Route::get('/dashboard/chart', [App\Http\Controllers\ChartController::class, 'index'])->name('chart.index');
 
 
 //lang
@@ -23,6 +25,7 @@ Route::get('/changeLocale/{locale}', function (string $locale) {
     }
     return redirect()->back();
 });
+
 
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');

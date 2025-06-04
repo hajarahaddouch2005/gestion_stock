@@ -21,15 +21,20 @@ class ProductController extends Controller
 {
     public function store(ProductRequest $request)
     {
+        //كيتأكد من صحة البيانات (validation) عبر ProductRequest
         $validated = $request->validated();
-
+        //إذا كان فيه ملف صورة (picture)، كيرفعها ويخزن المسار في الداتا.
         // Handle file upload if present
         if ($request->hasFile('picture')) {
             $picturePath = $request->file('picture')->store('products', 'public');
             $validated['picture'] = $picturePath;
         }
-
+        //كيخلق منتج جديد فقاعدة البيانات.
         $product = Product::create($validated);
+        //ذا الطلب جاء عبر AJAX (واجهة برمجة التطبيقات)، يرجع JSON فيه نجاح والمنتج.
+
+        //وإلا، يرجع Redirect مع رسالة نجاح.
+
 
         if ($request->ajax()) {
             return response()->json(['success' => true, 'product' => $product]);
@@ -42,6 +47,10 @@ class ProductController extends Controller
     /**
      * Display the specified product.
      */
+    //كيرجع تفاصيل المنتج على شكل JSON.
+
+    //كيعتمد على Route Model Binding، يعني تلقائياً كيجيب المنتج حسب الـID من الرابط.
+
     public function show(Product $product)
     {
         return response()->json($product);
@@ -52,23 +61,24 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $validated = $request->validated();
+        $validated = $request->validated(); //كيتأكد من صحة البيانات
 
         // Handle file upload if present
-        if ($request->hasFile('picture')) {
+        if ($request->hasFile('picture')) { //إذا فيه ملف صورة جديدة:
             // Delete old picture if exists
-            if ($product->picture) {
+            if ($product->picture) { //كيمسح الصورة القديمة (لو كانت موجودة)
                 Storage::disk('public')->delete($product->picture);
             }
+            //disk: 'public' يعني كيتخزن في المجلد public/storage/products
 
             $picturePath = $request->file('picture')->store('products', 'public');
-            $validated['picture'] = $picturePath;
+            $validated['picture'] = $picturePath; //كيتخزن المسار الجديد للصورة في الداتا.
         }
 
         $product->update($validated);
 
-        if ($request->ajax()) {
-            return response()->json(['success' => true, 'product' => $product]);
+        if ($request->ajax()) { //كيرجع JSON لو AJAX، أو Redirect مع رسالة نجاح.
+            return response()->json(['success' => true, 'product' => $product]); //كيعطي نجاح والمنتج المحدث.
         }
 
         return redirect()->route('products')
@@ -78,26 +88,29 @@ class ProductController extends Controller
     /**
      * Remove the specified product from storage.
      */
+    //كيمسح المنتج من قاعدة البيانات، وكيمسح الصورة المرتبطة به إذا كانت موجودة.
     public function destroy(Product $product)
     {
         // Delete product image if exists
         if ($product->picture) {
-            Storage::disk('public')->delete($product->picture);
+            Storage::disk('public')->delete($product->picture); // كيمسح الصورة من المجلد public/storage/products
         }
         Stock::where('product_id', $product->id)->delete();
         $product->delete();
 
         return response()->json(['success' => true]);
     }
-
-    public function byCategory(){
+    //يجلب جميع التصنيفات (Category).
+    public function byCategory()
+    {
         $categories = Category::all();
         $products = collect();
 
         return view('products.byCategory', compact('categories', 'products'));
     }
-
-    public function byCategoryX(Category $category){
+    //كيجيب المنتجات المرتبطة بتصنيف معين (Category)، مع معلومات المورد والمخزون.
+    public function byCategoryX(Category $category)
+    {
         $categories = Category::all();
         $products = $category->products()
             ->with(['supplier', 'stock'])
@@ -105,8 +118,9 @@ class ProductController extends Controller
         // dd($products);
         return view('products.byCategory', compact('categories', 'products'));
     }
-
-    public function orderedProducts(){
+    //كيجيب المنتجات اللي تم طلبها خلال فبراير 2017.
+    public function orderedProducts()
+    {
         $orders = Order::join('product_orders', 'product_orders.order_id', '=', 'orders.id')
             ->join('products', 'product_orders.product_id', '=', 'products.id')
             ->join('customers', 'orders.customer_id', '=', 'customers.id')
@@ -126,7 +140,7 @@ class ProductController extends Controller
 
         return view('products.orderedProducts', compact('orders'));
     }
-
+    //كيجلب أسماء المنتجات مع عدد الطلبات ديال كل منتج.
     public function ordersCount()
     {
         $products = Product::select('products.name')
@@ -140,6 +154,7 @@ class ProductController extends Controller
     /**
      * Display products with more than 6 orders.
      */
+    //كيجيب المنتجات اللي عدد الطلبات ديالها أكثر من 6.
     public function productsMoreThan6Orders()
     {
         $products = Product::select('products.id', 'products.name')
@@ -154,15 +169,14 @@ class ProductController extends Controller
 
 
     public function search(Request $request)
-{
-    $query = $request->input('query');
-    $products = Product::with(['category', 'supplier', 'stock'])
-        ->where('name', 'LIKE', "%{$query}%")
-        ->orWhere('description', 'LIKE', "%{$query}%")
-        ->get();
+    {
+        //كيدير بحث في جدول المنتجات على اسم المنتج أو الوصف باستخدام LIKE.
+        $query = $request->input('query');
+        $products = Product::with(['category', 'supplier', 'stock'])
+            ->where('name', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get();
 
-    return response()->json($products);
-}
-
-
+        return response()->json($products);
+    }
 }

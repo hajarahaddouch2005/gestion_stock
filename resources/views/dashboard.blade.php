@@ -8,15 +8,15 @@
         <h1 class="fs-1 text-dark">@lang('Welcome')</h1>
         <h4 class="text-gray fs-small">@lang('Slogon')</h4>
         <div class="container d-flex justify-center gap-1 flex-wrap">
-            <a href="{{route('customers')}}" class="btn btn-danger">@lang('List of Customers')</a>
-            <a href="{{route('suppliers')}}" class="btn btn-dark">@lang('List of Suppliers')</a>
+            <a href="{{route('customers')}}" class="btn btn-danger">@lang('Affiche la liste des clients.')</a>
+            <a href="{{route('suppliers')}}" class="btn btn-dark">@lang('Affiche la liste des fournisseurs.')</a>
 
-            <a href="{{route('products')}}" class="btn btn-primary">Products by Category</a>
-            <a href="/products-by-supplier"  class="btn btn-danger">Products by Supplier</a>
-            <a href="/products-by-store"  class="btn btn-primary">Products by Store</a>
-            <a href="{{route('product.by.order')}}" class="btn btn-warning">Orders</a>
-            <a href="{{route('orders')}}" class="btn btn-primary">Orders (JS method)</a>
-            <a href="{{route('orders.view')}}" class="btn btn-secondary">Orders (views method)</a>
+            <a href="{{route('products')}}" class="btn btn-primary">Affiche les produits groupés par catégorie.</a>
+            <a href="/products-by-supplier"  class="btn btn-danger">Affiche les produits groupés par fournisseur.</a>
+            <a href="/products-by-store"  class="btn btn-primary">Affiche les produits groupés par magasin.</a>
+            <a href="{{route('product.by.order')}}" class="btn btn-warning">Affiche les commandes de février 2017.</a>
+            <a href="{{route('orders')}}" class="btn btn-primary">Affiche les commandes (méthode JS)</a>
+            <a href="{{route('orders.view')}}" class="btn btn-secondary">Affiche les commandes (méthode vues)</a>
         </div>
     </div>
 
@@ -36,12 +36,12 @@
 
     <br><br>
     <div class="d-flex justify-content-center gap-3">
-        <a href="{{ route('customers.orders') }}" class="btn btn-info mb-3">la requête-1</a>
-        <a href="{{ route('suppliers.products') }}" class="btn btn-warning mb-3">la requête-2</a>
-        <a href="{{ route('products.same_stores') }}" class="btn btn-dark mb-3">la requête-3</a>
-        <a href="{{ route('products.countbystore') }}" class="btn btn-primary mb-3">la requête-4</a>
-        <a href="{{ route('store.value') }}" class="btn btn-danger mb-3">la requête-5</a>
-        <a href="{{ route('sotre.greater_than_lind') }}" class="btn btn-secondary mb-3">la requête-6</a>
+        <a href="{{ route('customers.orders') }}" class="btn btn-info mb-3">RQ-1</a>
+        <a href="{{ route('suppliers.products') }}" class="btn btn-warning mb-3">RQ-2</a>
+        <a href="{{ route('products.same_stores') }}" class="btn btn-dark mb-3">RQ-3</a>
+        <a href="{{ route('products.countbystore') }}" class="btn btn-primary mb-3">RQ-4</a>
+        <a href="{{ route('store.value') }}" class="btn btn-danger mb-3">RQ-5</a>
+        <a href="{{ route('store.greater_than_lind') }}" class="btn btn-secondary mb-3">RQ-6</a>
     </div>
     <br><br><br>
     <div class="container mt-4">
@@ -91,6 +91,10 @@
             </form>
         </div>
     </div>
+    <a href="{{ route('chart.index') }}" class="btn btn-outline-primary rounded shadow px-4 py-3 btn-hover-scale">Voir Chart Produits</a>
+    <a href="{{ route('chart.pie') }}" class="btn btn-primary px-4 py-2 rounded-pill">
+    Voir Pie Chart
+</a>
     </div>
 
 

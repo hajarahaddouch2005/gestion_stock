@@ -19,11 +19,6 @@ class DashboardController extends Controller
         return view('dashboard', ['user' => Auth::user()]);
     }
 
-
-
-
-
-
     public function customers() {
         $customers = Customer::all();
         return view('customers.index', compact('customers'));
